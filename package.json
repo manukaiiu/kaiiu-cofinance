@@ -1,0 +1,9 @@
+{
+  "name": "cofinance",
+  "version": "0.0.1",
+  "description": "a little tool to help cofinance things",
+  "scripts": {},
+  "keywords": [],
+  "author": "manu kaiiu",
+  "license": "AGPL-3.0-only"
+}

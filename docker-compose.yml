@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  database:
+    image: postgres:latest
+    container_name: database
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: kaiiu-cofinance
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: backend
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@database:5432/kaiiu-cofinance
+    labels:
+      - "traefik.enable=${TRAEFIK_ENABLE}"
+      - "traefik.http.routers.backend.rule=Host(`${API_DOMAIN}`)"
+      - "traefik.http.services.backend.loadbalancer.server.port=3000"
+      - "traefik.http.routers.backend.entrypoints=websecure"
+      - "traefik.http.routers.backend.tls.certresolver=myresolver"
+    depends_on:
+      - database
+    expose:
+      - "3000"
+    volumes:
+      - ./backend:/app
+
+frontend:
+  build:
+    context: .
+    dockerfile: frontend/Dockerfile
+  container_name: frontend
+  labels:
+    - "traefik.enable=${TRAEFIK_ENABLE}"
+    - "traefik.http.routers.frontend.rule=Host(`${DOMAIN}`)"
+    - "traefik.http.services.frontend.loadbalancer.server.port=5173"
+    - "traefik.http.routers.frontend.entrypoints=websecure"
+    - "traefik.http.routers.frontend.tls.certresolver=myresolver"
+  expose:
+    - "5173"
+  depends_on:
+    - backend
+
+traefik:
+  image: traefik:v2.9
+  container_name: traefik
+  command:
+    - "--api.insecure=${TRAEFIK_API_INSECURE}"
+    - "--providers.docker=true"
+    - "--entrypoints.web.address=:80"
+    - "--entrypoints.websecure.address=:443"
+    - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+    - "--certificatesresolvers.myresolver.acme.email=earth_organism@riseup.net"
+    - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+  ports:
+    - "80:80"
+    - "443:443"
+    - "8080:8080" # Optional: Traefik dashboard
+  volumes:
+    - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    - "./letsencrypt:/letsencrypt"
+  restart: always
+
+volumes:
+  pgdata:
