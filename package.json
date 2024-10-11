@@ -2,7 +2,10 @@
   "name": "cofinance",
   "version": "0.0.1",
   "description": "a little tool to help cofinance things",
-  "scripts": {},
+  "scripts": {
+    "start:db": "docker-compose --env-file .env.dev up --build database",
+    "stop:db": "docker-compose down database"
+  },
   "keywords": [],
   "author": "manu kaiiu",
   "license": "AGPL-3.0-only"
