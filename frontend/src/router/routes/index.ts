@@ -5,12 +5,12 @@ import { ERoutes } from "@/enums/route.enum";
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    redirect: ERoutes.Test,
+    redirect: ERoutes.TEST,
   },
   {
     component: (): RouteComponent => import(`@/pages/TestPage.vue`),
-    name: ERoutes.Test,
-    path: ERoutes.Test,
+    name: ERoutes.TEST,
+    path: ERoutes.TEST,
     meta: {
       headerTitle: 'Test',
     }

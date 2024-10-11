@@ -9,16 +9,13 @@
 </template>
 
 <script setup lang="ts">
-  import Header from '@components/Header.vue';
-  import { ERoutes } from './enums/route.enums';
+  import Header from '@/components/Header.vue';
   import { ref } from 'vue';
-  import { useRouter } from 'vue-router';
 
   const appLoaded = ref(true);
-  const router = useRouter();
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
   #app {
     display: flex;
     flex-direction: column;
