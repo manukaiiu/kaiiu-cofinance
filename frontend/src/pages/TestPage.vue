@@ -1,22 +1,24 @@
 <!-- src/App.vue -->
 <template>  
-  <!-- Create a New Project -->
-  <div>
-    <h3>Create Project</h3>
-    <input v-model="newProjectName" placeholder="Project Name" />
-    <button @click="addProject">Add Project</button>
-  </div>
+  <div v-bind="$attrs">
+    <!-- Create a New Project -->
+    <div>
+      <h3>Create Project</h3>
+      <input v-model="newProjectName" placeholder="Project Name" />
+      <button @click="addProject">Add Project</button>
+    </div>
 
-  <!-- Display All Projects -->
-  <div>
-    <h3>All Projects</h3>
-    <ul>
-      <li v-for="project in projects" :key="project.id">
-        {{ project.name }}
-        <button @click="editProject(project.id)">Edit</button>
-        <button @click="removeProject(project.id)">Delete</button>
-      </li>
-    </ul>
+    <!-- Display All Projects -->
+    <div>
+      <h3>All Projects</h3>
+      <ul>
+        <li v-for="project in projects" :key="project.id">
+          {{ project.name }}
+          <button @click="editProject(project.id)">Edit</button>
+          <button @click="removeProject(project.id)">Delete</button>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
