@@ -20,11 +20,23 @@
 + how to setup .env.dev best; using "localhost" for dev and for testing with containers we need "database". two different .env.devs? another level of vars?
 + find out how to update the server docker containers while keeping the database working.
 
-# run project (for the first time)
+
+# run project
+
+## run project for the first time
 + run database container with docker commands
 + in dir backend:
  + npm run db:reset (optional)
  + npm run db:migrate
+
+## run project (only backend in container)
++ in root: npm run start:db
++ in backend: npm run start
++ in frontend: npm run dev
+
+## run project (all in containers)
++ run database container
+
 
 # docker commands
 ! use a seperate terminal, because it will be occupied, or use "-d" to run the containers in the background
@@ -33,6 +45,7 @@
 docker-compose --env-file .env.dev up --build <optional only service>
 docker-compose --env-file .env.dev up --build backend
 docker-compose --env-file .env.dev up --build frontend
+docker-compose --env-file .env.dev up database
 
 docker-compose --env-file .env.prod up --build
 

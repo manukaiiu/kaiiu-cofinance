@@ -1,7 +1,3 @@
-<template>
-  <div v-if="svgContent" v-html="svgContent" class="svg-icon" :style="{ color: strokeColor }"></div>
-</template>
-
 <script setup lang="ts">
   import { ref, onMounted, watch } from 'vue';
 
@@ -38,11 +34,16 @@
   onMounted(loadSvg);
 </script>
 
+<template>
+  <div 
+    v-if="svgContent" 
+    v-html="svgContent" 
+    class="svg-icon" 
+    :style="{ color: strokeColor }"></div>
+</template>
+
 <style scoped>
   .svg-icon {
-    display: inline-block;
-    width: 28px;
-    height: 28px;
-    stroke: currentColor;
+    display: flex;
   }
 </style>

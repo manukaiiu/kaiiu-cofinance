@@ -1,0 +1,8 @@
+:root {
+  --color-grey-dark: #242424;
+  --color-grey-medium-dark: #484848;
+  --color-grey-light-dark: #888;
+
+  --header-background-color: var(--color-grey-medium-dark);
+  --sidebar-background-color: var(--color-grey-light-dark);
+}
