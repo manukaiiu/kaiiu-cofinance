@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import { EButtonWidthMode } from '@/enums/button.enums';
+import { EButtonWidthMode } from '@/enums/button.enum';
 import { computed, PropType } from 'vue';
 
   const props = defineProps({

@@ -47,25 +47,25 @@ services:
     depends_on:
       - backend
 
-  traefik:
-    image: traefik:v2.9
-    container_name: traefik
-    command:
-      - "--api.insecure=${TRAEFIK_API_INSECURE}"
-      - "--providers.docker=true"
-      - "--entrypoints.web.address=:80"
-      - "--entrypoints.websecure.address=:443"
-      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
-      - "--certificatesresolvers.myresolver.acme.email=earth_organism@riseup.net"
-      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
-    ports:
-      - "80:80"
-      - "443:443"
-      - "8080:8080" # Optional: Traefik dashboard
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "./letsencrypt:/letsencrypt"
-    restart: always
+  # traefik:
+  #   image: traefik:v2.9
+  #   container_name: traefik
+  #   command:
+  #     - "--api.insecure=${TRAEFIK_API_INSECURE}"
+  #     - "--providers.docker=true"
+  #     - "--entrypoints.web.address=:80"
+  #     - "--entrypoints.websecure.address=:443"
+  #     - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+  #     - "--certificatesresolvers.myresolver.acme.email=earth_organism@riseup.net"
+  #     - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #     - "8080:8080" # Optional: Traefik dashboard
+  #   volumes:
+  #     - "/var/run/docker.sock:/var/run/docker.sock:ro"
+  #     - "./letsencrypt:/letsencrypt"
+  #   restart: always
 
 volumes:
   pgdata:
