@@ -16,3 +16,4 @@ frontend/.vscode
 
 backend/dist/
 frontend/dist/
+frontend/tsconfig.tsbuildinfo
