@@ -13,11 +13,11 @@ services:
 
   backend:
     build:
-      context: .
-      dockerfile: backend/Dockerfile
+      context: ./backend
+      dockerfile: Dockerfile
     container_name: backend
     environment:
-      DATABASE_URL: postgres://postgres:postgres@database:5432/kaiiu-cofinance
+      DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD}@database:5432/kaiiu-cofinance
     labels:
       - "traefik.enable=${TRAEFIK_ENABLE}"
       - "traefik.http.routers.backend.rule=Host(`${API_DOMAIN}`)"
@@ -33,8 +33,8 @@ services:
 
   frontend:
     build:
-      context: .
-      dockerfile: frontend/Dockerfile
+      context: ./frontend
+      dockerfile: Dockerfile
     container_name: frontend
     labels:
       - "traefik.enable=${TRAEFIK_ENABLE}"

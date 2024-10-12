@@ -4,7 +4,9 @@
   "description": "a little tool to help cofinance things",
   "scripts": {
     "start": "docker-compose --env-file .env.dev up --build",
+    "start:be": "docker-compose --env-file .env.dev up --build backend",
     "start:db": "docker-compose --env-file .env.dev up --build database",
+    "stop:be": "docker-compose down backend",
     "stop:db": "docker-compose down database"
   },
   "keywords": [],
