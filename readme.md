@@ -15,7 +15,7 @@
 + store certificates in /letsencrypt/acme.json
 
 # project todos
-+ add eslint to frontend
++ make sure prod docker-compose settings work (providing .env for run) -> compose = build + run? for prod just build? and provide env on run manually? 
 + combine migrate:new script with "npx prisma generate" while keeping the param working
 + how to setup .env.dev best; using "localhost" for dev and for testing with containers we need "database". two different .env.devs? another level of vars?
 + find out how to update the server docker containers while keeping the database working.

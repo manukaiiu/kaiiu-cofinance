@@ -16,6 +16,8 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     container_name: backend
+    env_file:
+      - ./backend/.env.dev
     environment:
       DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD}@database:5432/kaiiu-cofinance
     labels:
@@ -36,6 +38,8 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     container_name: frontend
+    env_file:
+      - ./frontend/.env.dev
     labels:
       - "traefik.enable=${TRAEFIK_ENABLE}"
       - "traefik.http.routers.frontend.rule=Host(`${DOMAIN}`)"

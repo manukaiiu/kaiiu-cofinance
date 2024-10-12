@@ -6,8 +6,10 @@
     "start": "docker-compose --env-file .env.dev up --build",
     "start:be": "docker-compose --env-file .env.dev up --build backend",
     "start:db": "docker-compose --env-file .env.dev up --build database",
+    "start:fe": "docker-compose --env-file .env.dev up --build frontend",
     "stop:be": "docker-compose down backend",
-    "stop:db": "docker-compose down database"
+    "stop:db": "docker-compose down database",
+    "stop:fe": "docker-compose down frontend"
   },
   "keywords": [],
   "author": "manu kaiiu",
