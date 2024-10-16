@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "a little tool to help cofinance things",
   "scripts": {
+    "start:default": "docker-compose up --build",
     "start": "docker-compose --env-file .env.dev up --build",
     "start:be": "docker-compose --env-file .env.dev up --build backend",
     "start:db": "docker-compose --env-file .env.dev up --build database",

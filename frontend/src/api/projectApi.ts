@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:3000/projects';
+const BASE_URL = 'http://localhost/projects';
 
 export interface IProject {
   id: number;

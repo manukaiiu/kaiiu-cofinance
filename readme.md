@@ -1,44 +1,21 @@
-# learning server components
-- docker containers for database, backend, frontend, reverse-proxy
-- docker volume(s)
-- .env.prod files (optional secrets management)
-- docker network configuration
-- firewall rules
-- data backups
-- monitoring (prometheus or grafana)
-- CI/CD pipeline or tools for updating like watchtower; github - - actions; jenkins
-- readme instructions
-
-# server setup todos
-+ make the root user to the docker group to allow docker compose to run
- + sudo usermod -aG docker $USER
-+ store certificates in /letsencrypt/acme.json
-
-# project todos
-+ make sure prod docker-compose settings work (providing .env for run) -> compose = build + run? for prod just build? and provide env on run manually? 
-+ combine migrate:new script with "npx prisma generate" while keeping the param working
-+ how to setup .env.dev best; using "localhost" for dev and for testing with containers we need "database". two different .env.devs? another level of vars?
-+ find out how to update the server docker containers while keeping the database working.
-
-
 # run project
 
-## run project for the first time
+## run project for the first time (only database in container)
 + run database container with docker commands
 + in dir backend:
  + npm run db:reset (optional)
  + npm run db:migrate
 
-## run project (only backend in container)
+## run project (only database in container)
 + in root: npm run start:db
 + in backend: npm run start
 + in frontend: npm run dev
 
 ## run project (all in containers)
-+ run database container
++ npm run start
 
 
-# docker commands
+# small docker command howto
 ! use a seperate terminal, because it will be occupied, or use "-d" to run the containers in the background
 ! --build is optional if the images are already built
 
@@ -74,8 +51,9 @@ docker volume prune ???
 delete a volume
 docker volume rm <eg pgdata>
 
-# change database
-+ change in schema.prisam
+
+# make changes to database schema
++ change in schema.prisma
 + create migration and apply it: npm run db:migrate:new -- <migration-name>
 + if the new migration should not be applied immediately:
  + dotenv -e .env.dev -- npx prisma migrate dev --name <migration-name> --create-only
@@ -91,5 +69,30 @@ if container database is running
  + sudo -i -u postgres
  + psql -h localhost -U postgres -d kaiiu-cofinance
 
+
 # vscode settings
 + tab size: 2
+
+
+# learning server components
+- docker containers for database, backend, frontend, reverse-proxy
+- docker volume(s)
+- .env.prod files (optional secrets management)
+- docker network configuration
+- firewall rules
+- data backups
+- monitoring (prometheus or grafana)
+- CI/CD pipeline or tools for updating like watchtower; github - - actions; jenkins
+- readme instructions
+
+
+# server setup todos
++ make the root user to the docker group to allow docker compose to run
+ + sudo usermod -aG docker $USER
++ store certificates in /letsencrypt/acme.json
+
+
+# project todos
++ make sure prod docker-compose settings work (providing .env for run) -> compose = build + run? for prod just build? and provide env on run manually? 
++ combine migrate:new script with "npx prisma generate" while keeping the param working
++ how to setup .env.dev best; using "localhost" for dev and for testing with containers we need "database". two different .env.devs? another level of vars?

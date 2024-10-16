@@ -8,8 +8,10 @@ services:
       POSTGRES_DB: kaiiu-cofinance
     volumes:
       - pgdata:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
+    # ports:
+    #   - "5432:5432"
+    networks:
+      - database-network
 
   backend:
     build:
@@ -20,18 +22,28 @@ services:
       - ./backend/.env.dev
     environment:
       DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD}@database:5432/kaiiu-cofinance
-    # labels:
-    #   - "traefik.enable=${TRAEFIK_ENABLE}"
-    #   - "traefik.http.routers.backend.rule=Host(`${API_DOMAIN}`)"
-    #   - "traefik.http.services.backend.loadbalancer.server.port=3000"
-    #   - "traefik.http.routers.backend.entrypoints=websecure"
-    #   - "traefik.http.routers.backend.tls.certresolver=myresolver"
+    labels:
+      - "traefik.enable=${TRAEFIK_ENABLE}"
+      - "traefik.http.routers.backend.rule=Host(`${API_DOMAIN}`)"
+      
+      # - "traefik.http.middlewares.cors.headers.accesscontrolalloworigin=http://localhost:5173"
+      # - "traefik.http.middlewares.cors.headers.accesscontrolallowmethods=GET,OPTIONS,PUT,DELETE"
+      # - "traefik.http.routers.backend.middlewares=cors@docker"
+
+      # - "traefik.http.services.backend.loadbalancer.server.port=3000"
+      # - "traefik.http.routers.backend.entrypoints=websecure"
+      # - "traefik.http.routers.backend.tls.certresolver=myresolver"
     depends_on:
       - database
-    expose:
-      - "3000"
+    # expose:
+    #   - "3000"
+    # ports:
+    #   - "3000:3000"
     volumes:
       - ./backend:/app
+    networks:
+      - database-network
+      - frontend-network
 
   frontend:
     build:
@@ -40,36 +52,46 @@ services:
     container_name: frontend
     env_file:
       - ./frontend/.env.dev
-    # labels:
-    #   - "traefik.enable=${TRAEFIK_ENABLE}"
-    #   - "traefik.http.routers.frontend.rule=Host(`${DOMAIN}`)"
-    #   - "traefik.http.services.frontend.loadbalancer.server.port=5173"
-    #   - "traefik.http.routers.frontend.entrypoints=websecure"
-    #   - "traefik.http.routers.frontend.tls.certresolver=myresolver"
-    expose:
+    labels:
+      - "traefik.enable=${TRAEFIK_ENABLE}"
+      - "traefik.http.routers.frontend.rule=Host(`${DOMAIN}`)"
+      # - "traefik.http.services.frontend.loadbalancer.server.port=5173"
+      # - "traefik.http.routers.frontend.entrypoints=websecure"
+      # - "traefik.http.routers.frontend.tls.certresolver=myresolver"
+    # expose:
+    #   - "5173:5173"
+    ports:
       - "5173:5173"
     depends_on:
       - backend
+    networks:
+      - frontend-network
 
-  # traefik:
-  #   image: traefik:v2.9
-  #   container_name: traefik
-  #   command:
-  #     - "--api.insecure=${TRAEFIK_API_INSECURE}"
-  #     - "--providers.docker=true"
-  #     - "--entrypoints.web.address=:80"
-  #     - "--entrypoints.websecure.address=:443"
-  #     - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
-  #     - "--certificatesresolvers.myresolver.acme.email=earth_organism@riseup.net"
-  #     - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
-  #   ports:
-  #     - "80:80"
-  #     - "443:443"
-  #     - "8080:8080" # Optional: Traefik dashboard
-  #   volumes:
-  #     - "/var/run/docker.sock:/var/run/docker.sock:ro"
-  #     - "./letsencrypt:/letsencrypt"
-  #   restart: always
+  traefik:
+    image: traefik:v2.9
+    container_name: traefik
+    command:
+      - "--api.insecure=${TRAEFIK_API_INSECURE}"
+      - "--providers.docker=true"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      # - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+      # - "--certificatesresolvers.myresolver.acme.email=earth_organism@riseup.net"
+      # - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080" # Traefik dashboard
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      # - "./letsencrypt:/letsencrypt"
+    restart: always
+    networks:
+      - frontend-network
 
 volumes:
   pgdata:
+
+networks:
+  database-network:
+  frontend-network:
