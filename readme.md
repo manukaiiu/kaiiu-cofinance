@@ -1,5 +1,17 @@
 # run project
 
+## prepare for running
++ pre-requesits installed: 
+ + git
+ + node
+ + npm
+ + docker
+ + docker-compose
++ clone repo 
++ run "npm i" in backend and frontend
++ (if necessary) install
++ continue with your prefered way of running
+
 ## run project for the first time (only database in container)
 + run database container with docker commands
 + in dir backend:
@@ -15,7 +27,21 @@
 + npm run start
 
 
-# small docker command howto
+# small docker howto
+
+## install (on linux)
+### docker
++ sudo apt-get update
++ sudo apt-get install -y docker.io
++ sudo docker run hello-world // for testing
+### docker-compose
++ sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
++ sudo chmod +x /usr/local/bin/docker-compose
++ docker-compose --version
++ sudo usermod -aG docker $USER // make sure docker-compose commands can be run without sudo privilege
+
+
+## commands
 ! use a seperate terminal, because it will be occupied, or use "-d" to run the containers in the background
 ! --build is optional if the images are already built
 
